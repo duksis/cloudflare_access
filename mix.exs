@@ -30,7 +30,8 @@ defmodule CloudflareAccess.MixProject do
       # handling jwt tokens
       {:joken, "~> 2.0"},
       # http requests for retrieving CF access certificates
-      {:httpoison, "~> 1.7"}
+      {:httpoison, "~> 1.7"},
+      {:mock, "~> 0.3.0", only: :test}
     ]
   end
 
