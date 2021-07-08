@@ -23,8 +23,10 @@ defmodule CloudflareAccess.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:plug_cowboy, "~> 2.0"},
       {:ex_doc, "~> 0.18", only: :dev},
+      {:plug_cowboy, "~> 2.0"},
+      # JSON parsing
+      {:poison, "~> 4.0"},
       # handling jwt tokens
       {:joken, "~> 2.0"},
       # http requests for retrieving CF access certificates

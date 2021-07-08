@@ -2,7 +2,7 @@ defmodule CloudflareAccessTest do
   use ExUnit.Case
   doctest CloudflareAccess
 
-  test "greets the world" do
-    assert CloudflareAccess.hello() == :world
+  test "domain not configured" do
+    assert CloudflareAccess.domain() == "duksis.lv"
   end
 end

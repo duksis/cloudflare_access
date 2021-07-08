@@ -14,7 +14,7 @@ defmodule CloudflareAccess do
 
   ## Examples
 
-      iex> CloudflareAccess.get("duksis.lv")
+      iex> CloudflareAccess.get(nil)
       :ok
 
   """
@@ -43,8 +43,8 @@ defmodule CloudflareAccess do
 
   ## Examples
 
-      iex> CloudflareAccess.cache("duksis.lv")
-      :ok
+      iex> CloudflareAccess.cache("preview.hsnb.io")
+      true
 
   """
   def cache(domain \\ domain()) do

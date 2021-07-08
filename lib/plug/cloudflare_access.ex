@@ -1,4 +1,5 @@
 defmodule Plug.CloudflareAccess do
+  import CloudflareAccess, only: [get: 0]
   import Plug.Conn
   require Logger
 
@@ -50,7 +51,7 @@ defmodule Plug.CloudflareAccess do
   end
 
   defp signer do
-    cert = CloudlfareAccess.get()
+    cert = get()
     Joken.Signer.create(@alg, %{"pem" => cert})
   end
 end
