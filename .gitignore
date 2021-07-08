@@ -26,3 +26,4 @@ cloudflare_access-*.tar
 # Temporary files for e.g. tests
 /tmp
 _build
+doc
