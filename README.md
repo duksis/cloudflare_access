@@ -1,6 +1,6 @@
 # CloudflareAccess
 
-Plug for verifying Cloudflare Access headers inside your application.
+Plug for verifying Cloudflare Access headers inside your Plug application.
 
 
 ## Installation
@@ -18,6 +18,7 @@ end
 
 ## Usage
 
+Adding header check to your router:
 ```
 defmodule YourAppRouter do
   use Plug.Router
@@ -30,6 +31,7 @@ end
 
 ```
 
+Configuring domain name for Cloudflare Access public key retrieval.
 ```
 # in your config/config.exs
 
@@ -57,3 +59,5 @@ Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_do
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/cloudflare_access](https://hexdocs.pm/cloudflare_access).
 
+## License
+`cloudflare_access` is released under the [MIT License](./LICENSE).
