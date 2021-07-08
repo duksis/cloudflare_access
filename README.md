@@ -1,5 +1,7 @@
 # CloudflareAccess
 
+![Tests](https://github.com/duksis/cloudflare_access/actions/workflows/cf.yml/badge.svg)
+
 Plug for verifying Cloudflare Access headers inside your Plug application.
 
 
