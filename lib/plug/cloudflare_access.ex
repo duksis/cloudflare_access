@@ -20,14 +20,12 @@ defmodule Plug.CloudflareAccess do
     send_401(conn)
   end
 
-  defp send_401(
-         conn,
-         data \\ %{message: "Please make sure you have authentication header"}
-       ) do
+  @auth_response %{message: "Please make sure you have authentication header"}
+  defp send_401(conn, data \\ @auth_response) do
     conn
     |> put_resp_content_type("application/json")
     |> send_resp(401, Poison.encode!(data))
-    |> halt
+    |> halt()
   end
 
   defp get_auth_header(conn) do
@@ -41,8 +39,8 @@ defmodule Plug.CloudflareAccess do
     case CloudflareAccess.domain() do
       domain when is_binary(domain) and domain != "" ->
         conn
-        |> get_auth_header
-        |> authenticate
+        |> get_auth_header()
+        |> authenticate()
 
       _ ->
         Logger.info("Endpoint for retrieving CF access certificate not configured!")
@@ -51,7 +49,8 @@ defmodule Plug.CloudflareAccess do
   end
 
   defp signer do
-    cert = get()
-    Joken.Signer.create(@alg, %{"pem" => cert})
+    with cert <- get() do
+      Joken.Signer.create(@alg, %{"pem" => cert})
+    end
   end
 end
