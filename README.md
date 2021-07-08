@@ -1,6 +1,7 @@
 # CloudflareAccess
 
-**TODO: Add description**
+Plug for verifying Cloudflare Access headers inside your application.
+
 
 ## Installation
 
@@ -12,6 +13,43 @@ def deps do
   [
     {:cloudflare_access, "~> 0.1.0"}
   ]
+end
+```
+
+## Usage
+
+```
+defmodule YourAppRouter do
+  use Plug.Router
+
+  plug(Plug.CloudflareAccess)
+
+  ...
+
+end
+
+```
+
+```
+# in your config/config.exs
+
+config :cloudflare_access, domain: "exapmle.com"
+```
+
+
+For loading Cloudflare public key for your domain on application boot
+
+```
+defmodel YourApplication do
+  use Application
+  ...
+  def start(_type, _args) do
+    ...
+    # Retrieve CF access certificate from CF and save in ETS
+    CloudflareAccess.cache()
+    ...
+  end
+  ...
 end
 ```
 
