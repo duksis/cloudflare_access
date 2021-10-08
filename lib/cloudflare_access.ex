@@ -30,10 +30,11 @@ defmodule CloudflareAccess do
       end
     rescue
       MatchError ->
-        cert = fetch(domain)
-        {:ok, pid} = Agent.start_link(fn -> cert end)
-        :ets.insert(@table_name, {domain, pid})
-        cert
+        with cert <- fetch(domain),
+             {:ok, pid} <- Agent.start_link(fn -> cert end) do
+          :ets.insert(@table_name, {domain, pid})
+          cert
+        end
     end
   end
 
@@ -51,9 +52,11 @@ defmodule CloudflareAccess do
     case domain do
       domain when is_binary(domain) and domain != "" ->
         :ets.new(@table_name, [:named_table])
-        cert = fetch(domain)
-        {:ok, pid} = Agent.start_link(fn -> cert end)
-        :ets.insert(@table_name, {domain, pid})
+
+        with cert <- fetch(domain),
+             {:ok, pid} <- Agent.start_link(fn -> cert end) do
+          :ets.insert(@table_name, {domain, pid})
+        end
 
       _ ->
         Logger.info("Endpoint for retrieving CF access certificate not configured!")
@@ -72,9 +75,12 @@ defmodule CloudflareAccess do
   def domain, do: Application.get_env(:cloudflare_access, :domain)
 
   defp fetch(domain) do
-    %{status_code: 200, body: body} = HTTPoison.get!("https://#{domain}/cdn-cgi/access/certs")
-    certificates = Poison.decode!(body)
-    certificates |> Map.get("public_cert") |> Map.get("cert")
+    with %{status_code: 200, body: body} <-
+           HTTPoison.get!("https://#{domain}/cdn-cgi/access/certs") do
+      body
+      |> Poison.decode!()
+      |> Map.get("public_cert")
+      |> Map.get("cert")
+    end
   end
-
 end
